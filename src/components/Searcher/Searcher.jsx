@@ -38,7 +38,6 @@ const Searcher = ({ data }) => {
 
 Searcher.propTypes = {
   data: PropTypes.object.isRequired,
-  onSort: PropTypes.func.isRequired,
 };
 
 export default Searcher;
