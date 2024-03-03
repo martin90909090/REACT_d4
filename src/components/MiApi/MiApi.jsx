@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Searcher from '../Searcher/Searcher.jsx';
+import Order from '../Order/Order.jsx';
 
 const fetchIndicatorData = async () => {
   try {
@@ -7,7 +8,9 @@ const fetchIndicatorData = async () => {
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    return await response.json();
+    const data = await response.json();
+    const { version, autor, fecha, ...indicators } = data;
+    return indicators;
   } catch (error) {
     console.error('Failed to fetch data:', error);
     return null;
@@ -18,6 +21,14 @@ const MiApi = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const sortData = () => {
+    const sorted = Object.keys(data).sort().reduce((obj, key) => {
+      obj[key] = data[key];
+      return obj;
+    }, {});
+    setData(sorted);
+  };
 
   useEffect(() => {
     const loadData = async () => {
@@ -43,8 +54,9 @@ const MiApi = () => {
 
   return (
     <div>
-      <h1>Últimos valores registrados de los principales indicadores</h1>
-      <Searcher data={data} />
+        <h1>Últimos valores registrados de los principales indicadores</h1>
+        <Order onSort={sortData} />
+        <Searcher data={data} />
     </div>
   );
 };

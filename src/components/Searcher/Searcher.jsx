@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Searcher = ({ data }) => {
   const [search, setSearch] = useState('');
-  const [filteredData, setFilteredData] = useState({});
+  const [sortedData, setSortedData] = useState({});
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -13,7 +13,7 @@ const Searcher = ({ data }) => {
           obj[key] = data[key];
           return obj;
         }, {});
-      setFilteredData(result);
+      setSortedData(result);
     }, 300);
 
     return () => clearTimeout(handler);
@@ -28,7 +28,7 @@ const Searcher = ({ data }) => {
         onChange={e => setSearch(e.target.value)}
       />
       <ul>
-        {Object.entries(filteredData).map(([key, value]) => (
+        {Object.entries(sortedData).map(([key, value]) => (
           <li key={key}>{`${key}: ${value.valor}`}</li>
         ))}
       </ul>
@@ -38,6 +38,7 @@ const Searcher = ({ data }) => {
 
 Searcher.propTypes = {
   data: PropTypes.object.isRequired,
+  onSort: PropTypes.func.isRequired,
 };
 
 export default Searcher;
