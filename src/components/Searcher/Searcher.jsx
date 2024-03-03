@@ -1,15 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const Searcher = ({ data }) => {
   const [search, setSearch] = useState('');
+  const [filteredData, setFilteredData] = useState({});
 
-  const filteredData = Object.keys(data)
-    .filter(key => key.includes(search))
-    .reduce((obj, key) => {
-      obj[key] = data[key];
-      return obj;
-    }, {});
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      const result = Object.keys(data)
+        .filter(key => key.includes(search))
+        .reduce((obj, key) => {
+          obj[key] = data[key];
+          return obj;
+        }, {});
+      setFilteredData(result);
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [search, data]);
 
   return (
     <div>
