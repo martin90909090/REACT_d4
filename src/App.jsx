@@ -5,7 +5,7 @@ function App() {
 
   return (
     <>
-      <MiApi  />
+      <MiApi username='martin90909090' repos='REACT_d4' />
     </>
   )
 }
